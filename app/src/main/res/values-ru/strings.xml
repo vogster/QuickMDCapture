@@ -50,6 +50,8 @@
     <string name="filename_template_hint">Шаблон имени файла (заключите шаблоны форматирования даты и времени в двойные фигурные скобки: {{ }})</string>
     <string name="save_as_list_items">Сохранять как элементы списка</string>
     <string name="list_item_indent_level">Отступ элементов списка</string>
+    <string name="save_as_checklist">Сохранять как чек-лист</string>
+    <string name="checklist_indent_level">Отступ чек-листа</string>
     <string name="no_indent">Без отступа</string>
     <string name="indent_level">Отступ %d</string>
     <string name="add_timestamp">Добавлять временную метку перед текстом</string>

@@ -86,6 +86,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     )
     val listItemIndentLevel: StateFlow<Int> = _listItemIndentLevel
 
+    private val _isChecklistEnabled = MutableStateFlow(
+        sharedPreferences.getBoolean("CHECKLIST_ENABLED", false)
+    )
+    val isChecklistEnabled: StateFlow<Boolean> = _isChecklistEnabled
+
+    private val _checklistIndentLevel = MutableStateFlow(
+        sharedPreferences.getInt("CHECKLIST_INDENT_LEVEL", 0)
+    )
+    val checklistIndentLevel: StateFlow<Int> = _checklistIndentLevel
+
     private val _isTimestampEnabled = MutableStateFlow(
         sharedPreferences.getBoolean("TIMESTAMP_ENABLED", false)
     )
@@ -226,6 +236,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             _noteDateTemplate.value = template.noteDateTemplate
             _isListItemsEnabled.value = template.isListItemsEnabled
             _listItemIndentLevel.value = template.listItemIndentLevel
+            _isChecklistEnabled.value = template.isChecklistEnabled
+            _checklistIndentLevel.value = template.checklistIndentLevel
             _isTimestampEnabled.value = template.isTimestampEnabled
             _timestampTemplate.value = template.timestampTemplate
             _isDateCreatedEnabled.value = template.isDateCreatedEnabled
@@ -394,8 +406,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun updateListItemsEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
             _isListItemsEnabled.value = isEnabled
+            // If enabling list items, disable checklist to ensure mutual exclusivity
+            if (isEnabled && _isChecklistEnabled.value) {
+                _isChecklistEnabled.value = false
+            }
             selectedTemplate?.let { template ->
-                updateTemplate(template.copy(isListItemsEnabled = isEnabled))
+                updateTemplate(template.copy(
+                    isListItemsEnabled = isEnabled,
+                    isChecklistEnabled = if (isEnabled) false else template.isChecklistEnabled
+                ))
             }
         }
     }
@@ -406,6 +425,32 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             sharedPreferences.edit().putInt("LIST_ITEM_INDENT_LEVEL", level).apply()
             selectedTemplate?.let { template ->
                 updateTemplate(template.copy(listItemIndentLevel = level))
+            }
+        }
+    }
+
+    fun updateChecklistEnabled(isEnabled: Boolean) {
+        viewModelScope.launch {
+            _isChecklistEnabled.value = isEnabled
+            // If enabling checklist, disable list items to ensure mutual exclusivity
+            if (isEnabled && _isListItemsEnabled.value) {
+                _isListItemsEnabled.value = false
+            }
+            selectedTemplate?.let { template ->
+                updateTemplate(template.copy(
+                    isChecklistEnabled = isEnabled,
+                    isListItemsEnabled = if (isEnabled) false else template.isListItemsEnabled
+                ))
+            }
+        }
+    }
+
+    fun updateChecklistIndentLevel(level: Int) {
+        viewModelScope.launch {
+            _checklistIndentLevel.value = level
+            sharedPreferences.edit().putInt("CHECKLIST_INDENT_LEVEL", level).apply()
+            selectedTemplate?.let { template ->
+                updateTemplate(template.copy(checklistIndentLevel = level))
             }
         }
     }

@@ -58,6 +58,8 @@ fun SettingsScreen(
     val currentFolderUri by settingsViewModel.folderUri.collectAsState()
     val notificationStyle by settingsViewModel.notificationStyle.collectAsState()
     val isListItemsEnabled by settingsViewModel.isListItemsEnabled.collectAsState()
+    val isChecklistEnabled by settingsViewModel.isChecklistEnabled.collectAsState()
+    val checklistIndentLevel by settingsViewModel.checklistIndentLevel.collectAsState()
     val isTimestampEnabled by settingsViewModel.isTimestampEnabled.collectAsState()
     val timestampTemplate by settingsViewModel.timestampTemplate.collectAsState()
     val dateCreatedTemplate by settingsViewModel.dateCreatedTemplate.collectAsState()
@@ -722,6 +724,87 @@ fun SettingsScreen(
                                     onClick = {
                                         settingsViewModel.updateListItemIndentLevel(level)
                                         expanded = false
+                                    },
+                                    modifier = Modifier.height(48.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    stringResource(id = R.string.save_as_checklist),
+                    color = textColor,
+                    modifier = Modifier.weight(1f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Switch(
+                    checked = isChecklistEnabled,
+                    onCheckedChange = {
+                        settingsViewModel.updateChecklistEnabled(it)
+                    }
+                )
+            }
+
+            if (isChecklistEnabled) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        stringResource(id = R.string.checklist_indent_level),
+                        color = textColor,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    var expandedChecklist by remember { mutableStateOf(false) }
+                    val checklistIndentLevels = listOf(0, 1, 2, 3, 4, 5)
+                    val currentChecklistIndentLevel = settingsViewModel.checklistIndentLevel.collectAsState().value
+
+                    Box {
+                        OutlinedButton(
+                            onClick = { expandedChecklist = true },
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = textColor
+                            )
+                        ) {
+                            Text(
+                                when (currentChecklistIndentLevel) {
+                                    0 -> stringResource(id = R.string.no_indent)
+                                    else -> stringResource(id = R.string.indent_level, currentChecklistIndentLevel)
+                                }
+                            )
+                        }
+
+                        DropdownMenu(
+                            expanded = expandedChecklist,
+                            onDismissRequest = { expandedChecklist = false },
+                            modifier = Modifier.background(dropdownMenuBackgroundColor)
+                        ) {
+                            checklistIndentLevels.forEach { level ->
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            when (level) {
+                                                0 -> stringResource(id = R.string.no_indent)
+                                                else -> stringResource(id = R.string.indent_level, level)
+                                            },
+                                            color = textColor,
+                                            modifier = Modifier.padding(vertical = 8.dp)
+                                        )
+                                    },
+                                    onClick = {
+                                        settingsViewModel.updateChecklistIndentLevel(level)
+                                        expandedChecklist = false
                                     },
                                     modifier = Modifier.height(48.dp)
                                 )

@@ -407,13 +407,20 @@ class NoteDialog(
                 val content = StringBuilder()
 
                 // Форматируем текст заметки
-                val formattedNote = if (settingsViewModel.isListItemsEnabled.value) {
-                    val indent = "\t".repeat(settingsViewModel.listItemIndentLevel.value)
-                    note.lines().joinToString("\n") { line ->
-                        "$indent- $line"
+                val formattedNote = when {
+                    settingsViewModel.isChecklistEnabled.value -> {
+                        val indent = "\t".repeat(settingsViewModel.checklistIndentLevel.value)
+                        note.lines().joinToString("\n") { line ->
+                            "$indent- [ ] $line"
+                        }
                     }
-                } else {
-                    note
+                    settingsViewModel.isListItemsEnabled.value -> {
+                        val indent = "\t".repeat(settingsViewModel.listItemIndentLevel.value)
+                        note.lines().joinToString("\n") { line ->
+                            "$indent- $line"
+                        }
+                    }
+                    else -> note
                 }
 
                 // Добавляем временную метку перед текстом, если включено

@@ -50,6 +50,8 @@
     <string name="filename_template_hint">Filename template (put date and time formatting patterns inside double curly braces: {{ }})</string>
     <string name="save_as_list_items">Save as list items</string>
     <string name="list_item_indent_level">List item indentation</string>
+    <string name="save_as_checklist">Save as checklist</string>
+    <string name="checklist_indent_level">Checklist indentation</string>
     <string name="no_indent">No indent</string>
     <string name="indent_level">Indent %d</string>
     <string name="add_timestamp">Add timestamp before text</string>

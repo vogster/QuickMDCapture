@@ -151,6 +151,8 @@ class ShareHandlerActivity : AppCompatActivity() {
         val isDateCreatedEnabled = settingsViewModel.isDateCreatedEnabled.value
         val propertyName = settingsViewModel.propertyName.value
         val noteDateTemplate = settingsViewModel.noteDateTemplate.value
+        val isChecklistEnabled = settingsViewModel.isChecklistEnabled.value
+        val checklistIndentLevel = settingsViewModel.checklistIndentLevel.value
         val isListItemsEnabled = settingsViewModel.isListItemsEnabled.value
         val listItemIndentLevel = settingsViewModel.listItemIndentLevel.value
         val isTimestampEnabled = settingsViewModel.isTimestampEnabled.value
@@ -180,9 +182,16 @@ class ShareHandlerActivity : AppCompatActivity() {
         if (existingFile != null) {
             contentResolver.openOutputStream(existingFile.uri, "wa")?.use { outputStream ->
                 var textToWrite = text
-                if (isListItemsEnabled) {
-                    textToWrite = textToWrite.split("\n").joinToString("\n") { 
-                        "\t".repeat(listItemIndentLevel) + "- $it" 
+                when {
+                    isChecklistEnabled -> {
+                        textToWrite = textToWrite.split("\n").joinToString("\n") { 
+                            "\t".repeat(checklistIndentLevel) + "- [ ] $it" 
+                        }
+                    }
+                    isListItemsEnabled -> {
+                        textToWrite = textToWrite.split("\n").joinToString("\n") { 
+                            "\t".repeat(listItemIndentLevel) + "- $it" 
+                        }
                     }
                 }
                 if (isTimestampEnabled) {
@@ -196,9 +205,16 @@ class ShareHandlerActivity : AppCompatActivity() {
             if (newFile != null) {
                 contentResolver.openOutputStream(newFile.uri)?.use { outputStream ->
                     var textToWrite = text
-                    if (isListItemsEnabled) {
-                        textToWrite = textToWrite.split("\n").joinToString("\n") { 
-                            "\t".repeat(listItemIndentLevel) + "- $it" 
+                    when {
+                        isChecklistEnabled -> {
+                            textToWrite = textToWrite.split("\n").joinToString("\n") { 
+                                "\t".repeat(checklistIndentLevel) + "- [ ] $it" 
+                            }
+                        }
+                        isListItemsEnabled -> {
+                            textToWrite = textToWrite.split("\n").joinToString("\n") { 
+                                "\t".repeat(listItemIndentLevel) + "- $it" 
+                            }
                         }
                     }
                     if (isTimestampEnabled) {
