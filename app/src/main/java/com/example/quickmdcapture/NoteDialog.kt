@@ -14,17 +14,13 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import java.text.SimpleDateFormat
@@ -56,7 +52,6 @@ class NoteDialog(
             val view = super.getView(position, convertView, parent)
             (view as TextView).apply {
                 setTextColor(textColor)
-                gravity = android.view.Gravity.CENTER
             }
             return view
         }
@@ -65,7 +60,6 @@ class NoteDialog(
             val view = super.getDropDownView(position, convertView, parent)
             (view as TextView).apply {
                 setTextColor(textColor)
-                gravity = android.view.Gravity.CENTER
                 setPadding(paddingLeft, 24, paddingRight, 24)
             }
             return view
@@ -92,102 +86,103 @@ class NoteDialog(
 
         window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
 
-        val btnSave = findViewById<Button>(R.id.btnSave)
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
+        val btnSave = findViewById<LinearLayout>(R.id.btnSave)
+        val btnCancel = findViewById<ImageButton>(R.id.btnCancelIcon)
+        val tvCancel = findViewById<TextView>(R.id.tvCancel)
 
         // Setup template spinner
         val templates = settingsViewModel.templates.value
         
         // Apply theme
         val theme = settingsViewModel.theme.value
-        val dialogLayout = findViewById<LinearLayout>(R.id.noteDialogLayout)
+//        val dialogLayout = findViewById<LinearLayout>(R.id.noteDialogLayout)
         val buttonBackground = ContextCompat.getDrawable(context, R.drawable.rounded_button_background)
-        when (theme) {
-            "light" -> {
-                dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background)
-                etNote.setTextColor(ContextCompat.getColor(context, R.color.black))
-                etNote.setHintTextColor(ContextCompat.getColor(context, R.color.black))
-                btnSpeech.background = buttonBackground
-                btnRestore.background = buttonBackground
-                btnSpeech.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_mic))
-                templateSpinner.setBackgroundResource(R.drawable.rounded_dialog_background)
-                templateSpinner.setPopupBackgroundResource(R.drawable.rounded_dialog_background)
-                templateSpinner.adapter = TemplateAdapter(
-                    context,
-                    templates.map { it.name },
-                    ContextCompat.getColor(context, R.color.black)
-                )
-            }
-            "dark" -> {
-                dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
-                etNote.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
-                etNote.setHintTextColor(ContextCompat.getColor(context, R.color.light_gray))
-                btnSpeech.background = buttonBackground
-                btnRestore.background = buttonBackground
-                val micDrawable = ContextCompat.getDrawable(context, R.drawable.ic_mic)
-                DrawableCompat.setTint(micDrawable!!, ContextCompat.getColor(context, R.color.light_gray))
-                btnSpeech.setImageDrawable(micDrawable)
-                templateSpinner.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
-                templateSpinner.setPopupBackgroundResource(R.drawable.rounded_dialog_background_dark)
-                templateSpinner.adapter = TemplateAdapter(
-                    context,
-                    templates.map { it.name },
-                    ContextCompat.getColor(context, R.color.white)
-                )
-
-                // Изменение цвета каемки кнопки
-                if (buttonBackground != null) {
-                    val strokeColor = ContextCompat.getColor(context, R.color.dark_gray)
-                    DrawableCompat.setTint(DrawableCompat.wrap(buttonBackground).mutate(), strokeColor)
-                    btnSpeech.background = buttonBackground
-                    btnRestore.background = buttonBackground
-                }
-            }
-            else -> {
-                when (AppCompatDelegate.getDefaultNightMode()) {
-                    AppCompatDelegate.MODE_NIGHT_YES -> {
-                        dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
-                        etNote.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
-                        etNote.setHintTextColor(ContextCompat.getColor(context, R.color.light_gray))
-                        btnSpeech.background = buttonBackground
-                        btnRestore.background = buttonBackground
-                        val micDrawable = ContextCompat.getDrawable(context, R.drawable.ic_mic)
-                        DrawableCompat.setTint(micDrawable!!, ContextCompat.getColor(context, R.color.light_gray))
-                        btnSpeech.setImageDrawable(micDrawable)
-                        templateSpinner.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
-                        templateSpinner.setPopupBackgroundResource(R.drawable.rounded_dialog_background_dark)
+//        when (theme) {
+//            "light" -> {
+//                dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background)
+//                etNote.setTextColor(ContextCompat.getColor(context, R.color.black))
+//                etNote.setHintTextColor(ContextCompat.getColor(context, R.color.black))
+//                btnSpeech.background = buttonBackground
+//                btnRestore.background = buttonBackground
+//                btnSpeech.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_mic))
+//                templateSpinner.setBackgroundResource(R.drawable.rounded_dialog_background)
+//                templateSpinner.setPopupBackgroundResource(R.drawable.rounded_dialog_background)
+//                templateSpinner.adapter = TemplateAdapter(
+//                    context,
+//                    templates.map { it.name },
+//                    ContextCompat.getColor(context, R.color.black)
+//                )
+//            }
+//            "dark" -> {
+//                dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
+//                etNote.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+//                etNote.setHintTextColor(ContextCompat.getColor(context, R.color.light_gray))
+//                btnSpeech.background = buttonBackground
+//                btnRestore.background = buttonBackground
+//                val micDrawable = ContextCompat.getDrawable(context, R.drawable.ic_mic)
+//                DrawableCompat.setTint(micDrawable!!, ContextCompat.getColor(context, R.color.light_gray))
+//                btnSpeech.setImageDrawable(micDrawable)
+//                templateSpinner.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
+//                templateSpinner.setPopupBackgroundResource(R.drawable.rounded_dialog_background_dark)
+//                templateSpinner.adapter = TemplateAdapter(
+//                    context,
+//                    templates.map { it.name },
+//                    ContextCompat.getColor(context, R.color.white)
+//                )
+//
+//                // Изменение цвета каемки кнопки
+//                if (buttonBackground != null) {
+//                    val strokeColor = ContextCompat.getColor(context, R.color.dark_gray)
+//                    DrawableCompat.setTint(DrawableCompat.wrap(buttonBackground).mutate(), strokeColor)
+//                    btnSpeech.background = buttonBackground
+//                    btnRestore.background = buttonBackground
+//                }
+//            }
+//            else -> {
+//                when (AppCompatDelegate.getDefaultNightMode()) {
+//                    AppCompatDelegate.MODE_NIGHT_YES -> {
+//                        dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
+//                        etNote.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+//                        etNote.setHintTextColor(ContextCompat.getColor(context, R.color.light_gray))
+//                        btnSpeech.background = buttonBackground
+//                        btnRestore.background = buttonBackground
+//                        val micDrawable = ContextCompat.getDrawable(context, R.drawable.ic_mic)
+//                        DrawableCompat.setTint(micDrawable!!, ContextCompat.getColor(context, R.color.light_gray))
+//                        btnSpeech.setImageDrawable(micDrawable)
+//                        templateSpinner.setBackgroundResource(R.drawable.rounded_dialog_background_dark)
+//                        templateSpinner.setPopupBackgroundResource(R.drawable.rounded_dialog_background_dark)
+//                        templateSpinner.adapter = TemplateAdapter(
+//                            context,
+//                            templates.map { it.name },
+//                            ContextCompat.getColor(context, R.color.white)
+//                        )
+//
+//                        // Изменение цвета каемки кнопки
+//                        if (buttonBackground != null) {
+//                            val strokeColor = ContextCompat.getColor(context, R.color.dark_gray)
+//                            DrawableCompat.setTint(DrawableCompat.wrap(buttonBackground).mutate(), strokeColor)
+//                            btnSpeech.background = buttonBackground
+//                            btnRestore.background = buttonBackground
+//                        }
+//                    }
+//                    else -> {
+//                        dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background)
+//                        etNote.setTextColor(ContextCompat.getColor(context, R.color.black))
+//                        etNote.setHintTextColor(ContextCompat.getColor(context, R.color.black))
+//                        btnSpeech.background = buttonBackground
+//                        btnRestore.background = buttonBackground
+//                        btnSpeech.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_mic))
+                        templateSpinner.setBackgroundResource(R.drawable.spinner_bg_dark)
+                        templateSpinner.setPopupBackgroundResource(R.drawable.spinner_bg_dark)
                         templateSpinner.adapter = TemplateAdapter(
                             context,
                             templates.map { it.name },
                             ContextCompat.getColor(context, R.color.white)
                         )
-
-                        // Изменение цвета каемки кнопки
-                        if (buttonBackground != null) {
-                            val strokeColor = ContextCompat.getColor(context, R.color.dark_gray)
-                            DrawableCompat.setTint(DrawableCompat.wrap(buttonBackground).mutate(), strokeColor)
-                            btnSpeech.background = buttonBackground
-                            btnRestore.background = buttonBackground
-                        }
-                    }
-                    else -> {
-                        dialogLayout.setBackgroundResource(R.drawable.rounded_dialog_background)
-                        etNote.setTextColor(ContextCompat.getColor(context, R.color.black))
-                        etNote.setHintTextColor(ContextCompat.getColor(context, R.color.black))
-                        btnSpeech.background = buttonBackground
-                        btnRestore.background = buttonBackground
-                        btnSpeech.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_mic))
-                        templateSpinner.setBackgroundResource(R.drawable.rounded_dialog_background)
-                        templateSpinner.setPopupBackgroundResource(R.drawable.rounded_dialog_background)
-                        templateSpinner.adapter = TemplateAdapter(
-                            context,
-                            templates.map { it.name },
-                            ContextCompat.getColor(context, R.color.black)
-                        )
-                    }
-                }
-            }
-        }
+//                    }
+//                }
+//            }
+//        }
         
         // Set initial selection based on source
         val templateIndex = if (isFromReminder) {
@@ -260,6 +255,11 @@ class NoteDialog(
         }
 
         btnCancel.setOnClickListener {
+            stopSpeechRecognition()
+            dismiss()
+        }
+
+        tvCancel.setOnClickListener {
             stopSpeechRecognition()
             dismiss()
         }

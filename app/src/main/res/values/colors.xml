@@ -12,5 +12,18 @@
     <color name="red">#ff0000</color>
 
     <color name="dark_gray">#303030</color>
-    <color name="light_gray">#e0e0e0</color>
+
+
+    <color name="violet_obsidian_500">#6e56ca</color>
+
+    <color name="dark_bg">#0F1112</color>          <!-- экранный фон -->
+<!--    <color name="dialog_surface">#151718</color>    &lt;!&ndash; основной фон диалога &ndash;&gt;-->
+    <color name="dialog_surface">#1b1c21</color>
+    <color name="dialog_inner">#161719</color>      <!-- фон внутренних контролов -->
+    <color name="dialog_stroke">#232427</color>     <!-- тонкая обводка -->
+    <color name="text_primary">#E6E6E6</color>
+    <color name="text_secondary">#8B8F94</color>
+    <color name="obsidian_purple">#7C4DFF</color>
+    <color name="muted_gray">#3A3C3E</color>
+    <color name="cancel_gray">#9E9E9E</color>
 </resources>

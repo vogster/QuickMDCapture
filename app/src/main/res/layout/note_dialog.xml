@@ -1,100 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/noteDialogLayout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/rounded_dialog_background">
+    android:color="@android:color/transparent">
 
-    <Spinner
-        android:id="@+id/templateSpinner"
+    <!-- Карточка диалога -->
+    <LinearLayout
+        android:id="@+id/dialog_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_button_background"
-        android:padding="8dp"
-        android:gravity="center" />
+        android:layout_gravity="center"
+        android:background="@drawable/dialog_background_dark"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="18dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="18dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:maxHeight="300dp">
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/btnRestore"
-                android:layout_width="48dp"
+            android:layout_marginBottom="18dp">
+            <!-- Spinner внутри темной pill -->
+            <Spinner
+                android:id="@+id/templateSpinner"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_restore"
-                android:background="@drawable/rounded_button_background"
-                android:contentDescription="@string/restore_text"
-                android:visibility="gone" />
+                android:background="@drawable/spinner_bg_dark"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:popupBackground="@color/dialog_surface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/chevronImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_chevron_down" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Блок ввода + микрофон -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Placeholder / EditText (фон прозрачный, большой hint) -->
             <EditText
                 android:id="@+id/etNote"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@null"
+                android:gravity="top|start"
                 android:hint="@string/enter_note"
-                android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-                android:imeOptions="actionDone"
-                android:gravity="top|start" />
+                android:inputType="textCapSentences|textMultiLine"
+                android:minHeight="35dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/btnSpeech"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="spread" />
 
+            <!-- микрофон справа -->
             <ImageButton
                 android:id="@+id/btnSpeech"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/speech_to_text"
+                android:src="@drawable/ic_mic"
+                app:layout_constraintBottom_toBottomOf="@id/etNote"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/etNote"
+                app:tint="@color/text_primary" />
+
+            <ImageButton
+                android:id="@+id/btnRestore"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/speech_to_text"
+                android:src="@drawable/ic_mic"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/etNote"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/etNote"
+                app:tint="@color/text_primary" />
+
+            <!-- Фиолетовая линия под полем -->
+            <View
+                android:id="@+id/underline"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/obsidian_purple"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etNote" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Нижняя панель: левый круглый X + текст "Отмена" и правая кнопка Save -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- круглая иконка -->
+            <ImageButton
+                android:id="@+id/btnCancelIcon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/ic_mic"
-                android:background="@drawable/rounded_button_background"
-                android:contentDescription="@string/speech_to_text" />
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/circle_outline_gray"
+                android:contentDescription="@string/cancel"
+                android:padding="6dp"
+                android:src="@drawable/ic_cancel_x"
+                app:tint="@color/text_secondary" />
+
+            <!-- Текст "Отмена" -->
+            <TextView
+                android:id="@+id/tvCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.9"
+                android:text="@string/cancel"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- Save button (pill outline, иконка слева) -->
+            <LinearLayout
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:background="@drawable/pill_outline_purple"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_save"
+                    app:tint="@color/obsidian_purple" />
+
+                <TextView
+                    android:id="@+id/tvSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/save"
+                    android:textColor="@color/obsidian_purple"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancel"
-            android:drawableLeft="@drawable/ic_cancel"
-            android:drawableTint="@color/red"
-            android:textColor="@color/red"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:gravity="center"
-            android:background="@drawable/rounded_button_background_red" />
-
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="@string/save"
-            android:drawableLeft="@drawable/ic_save"
-            android:drawableTint="@color/green"
-            android:textColor="@color/green"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:gravity="center"
-            android:background="@drawable/rounded_button_background_green" />
 
     </LinearLayout>
-</LinearLayout>
+
+</FrameLayout>
