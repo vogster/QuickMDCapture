@@ -305,15 +305,12 @@ fun MainScreen(
         checkLatestRelease()
     }
 
-    val backgroundColor = when (theme) {
-        "light" -> Color(0xFF9E7CB2)
-        "dark" -> Color(0xFF303030)
-        else -> Color(0xFF9E7CB2)
-    }
+    val backgroundColor = MaterialTheme.colorScheme.background
 
-    val textColor = if (theme == "dark") Color.LightGray else Color.Black
-    val cardColors =
-        if (theme == "dark") CardDefaults.cardColors(containerColor = Color(0xFF424242)) else CardDefaults.cardColors()
+    val textColor = MaterialTheme.colorScheme.onBackground
+    val cardColors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surface
+    )
 
     Surface(modifier = Modifier.fillMaxSize(), color = backgroundColor) {
         LazyColumn(

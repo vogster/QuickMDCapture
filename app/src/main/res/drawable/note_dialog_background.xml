@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- main card with corner radius + stroke -->
+    <!-- main dialog card background with corner radius + stroke -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/dialog_background"/>

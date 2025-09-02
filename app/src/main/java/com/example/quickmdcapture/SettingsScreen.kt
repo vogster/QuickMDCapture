@@ -102,10 +102,11 @@ fun SettingsScreen(
     var expandedNotificationStyle by remember { mutableStateOf(false) }
     var expandedTheme by remember { mutableStateOf(false) }
 
-    val textColor = if (theme == "dark") Color.LightGray else Color.Black
-    val cardColors =
-        if (theme == "dark") CardDefaults.cardColors(containerColor = Color(0xFF424242)) else CardDefaults.cardColors()
-    val dropdownMenuBackgroundColor = if (theme == "dark") Color(0xFF2D2D2D) else Color.White
+    val textColor = MaterialTheme.colorScheme.onBackground
+    val cardColors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surface
+    )
+    val dropdownMenuBackgroundColor = MaterialTheme.colorScheme.surface
 
     // Add debounced scrolling state
     var debouncedIsScrolling by remember { mutableStateOf(false) }
@@ -165,7 +166,7 @@ fun SettingsScreen(
                             .fillMaxWidth()
                             .menuAnchor(),
                         colors = TextFieldDefaults.textFieldColors(
-                            textColor = textColor,
+                            textColor = MaterialTheme.colorScheme.onSurface,
                             containerColor = Color.Transparent
                         )
                     )
@@ -282,7 +283,7 @@ fun SettingsScreen(
                                 .fillMaxWidth()
                                 .menuAnchor(),
                             colors = TextFieldDefaults.textFieldColors(
-                                textColor = textColor,
+                            textColor = MaterialTheme.colorScheme.onSurface,
                                 containerColor = Color.Transparent
                             )
                         )
@@ -398,7 +399,7 @@ fun SettingsScreen(
                         .fillMaxWidth()
                         .menuAnchor(),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     )
                 )
@@ -466,8 +467,8 @@ fun SettingsScreen(
                 Button(
                     onClick = { showAddTemplateDialog = true },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     modifier = Modifier.weight(1f).padding(end = 4.dp)
                 ) {
@@ -481,8 +482,8 @@ fun SettingsScreen(
                         showRenameTemplateDialog = true
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
                 ) {
@@ -495,8 +496,8 @@ fun SettingsScreen(
                         showDeleteTemplateDialog = true
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     enabled = templates.find { it.id == selectedTemplateId }?.isDefault != true,
                     modifier = Modifier.weight(1f).padding(start = 4.dp)
@@ -511,7 +512,7 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
                 thickness = 2.dp,
-                color = if (theme == "dark") Color.LightGray else Color.DarkGray
+                color = MaterialTheme.colorScheme.outlineVariant
             )
 
             // Save Location Section
@@ -530,7 +531,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                    contentColor = if (theme == "dark") Color.LightGray else Color.White
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 Text(stringResource(id = R.string.select_folder))
@@ -553,7 +554,7 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
                 thickness = 2.dp,
-                color = if (theme == "dark") Color.LightGray else Color.DarkGray
+                color = MaterialTheme.colorScheme.outlineVariant
             )
 
             // File Format Section
@@ -622,7 +623,7 @@ fun SettingsScreen(
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     ),
                     placeholder = {
@@ -639,7 +640,7 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
                 thickness = 2.dp,
-                color = if (theme == "dark") Color.LightGray else Color.DarkGray
+                color = MaterialTheme.colorScheme.outlineVariant
             )
 
             Text(
@@ -843,7 +844,7 @@ fun SettingsScreen(
                     label = { Text(stringResource(id = R.string.timestamp_template_hint), color = textColor) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     )
                 )
@@ -854,7 +855,7 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
                 thickness = 2.dp,
-                color = if (theme == "dark") Color.LightGray else Color.DarkGray
+                color = MaterialTheme.colorScheme.outlineVariant
             )
 
 
@@ -899,7 +900,7 @@ fun SettingsScreen(
                     label = { Text(stringResource(id = R.string.property_name_hint), color = textColor) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     )
                 )
@@ -914,7 +915,7 @@ fun SettingsScreen(
                     label = { Text(stringResource(id = R.string.date_format_hint), color = textColor) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     )
                 )
@@ -1005,7 +1006,7 @@ fun SettingsScreen(
                     placeholder = { Text(stringResource(id = R.string.reminder_text_hint), color = textColor) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     )
                 )
@@ -1035,7 +1036,7 @@ fun SettingsScreen(
                     placeholder = { Text("1", color = textColor.copy(alpha = 0.6f)) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     )
                 )
@@ -1123,7 +1124,7 @@ fun SettingsScreen(
                         label = { Text(stringResource(id = R.string.reminder_default_template), color = textColor) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedReminderTemplate) },
                         colors = TextFieldDefaults.textFieldColors(
-                            textColor = textColor,
+                            textColor = MaterialTheme.colorScheme.onSurface,
                             containerColor = Color.Transparent
                         ),
                         modifier = Modifier
@@ -1186,7 +1187,7 @@ fun SettingsScreen(
                     onValueChange = { newTemplateName = it },
                     label = { Text(stringResource(id = R.string.template_name_hint), color = textColor) },
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     ),
                     modifier = Modifier.focusRequester(focusRequester)
@@ -1207,8 +1208,8 @@ fun SettingsScreen(
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(stringResource(id = R.string.add))
@@ -1221,14 +1222,14 @@ fun SettingsScreen(
                         showAddTemplateDialog = false
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(stringResource(id = R.string.cancel))
                 }
             },
-            containerColor = if (theme == "dark") Color(0xFF424242) else Color.White
+            containerColor = MaterialTheme.colorScheme.surface
         )
     }
 
@@ -1246,7 +1247,7 @@ fun SettingsScreen(
                     onValueChange = { newTemplateName = it },
                     label = { Text(stringResource(id = R.string.template_name_hint), color = textColor) },
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = textColor,
+                        textColor = MaterialTheme.colorScheme.onSurface,
                         containerColor = Color.Transparent
                     ),
                     modifier = Modifier.focusRequester(focusRequester)
@@ -1266,8 +1267,8 @@ fun SettingsScreen(
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(stringResource(id = R.string.rename))
@@ -1280,14 +1281,14 @@ fun SettingsScreen(
                         showRenameTemplateDialog = false
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(stringResource(id = R.string.cancel))
                 }
             },
-            containerColor = if (theme == "dark") Color(0xFF424242) else Color.White
+            containerColor = MaterialTheme.colorScheme.surface
         )
     }
 
@@ -1313,8 +1314,8 @@ fun SettingsScreen(
                         showDeleteTemplateDialog = false
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(stringResource(id = R.string.delete))
@@ -1324,14 +1325,14 @@ fun SettingsScreen(
                 Button(
                     onClick = { showDeleteTemplateDialog = false },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                        contentColor = if (theme == "dark") Color.LightGray else Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(stringResource(id = R.string.cancel))
                 }
             },
-            containerColor = if (theme == "dark") Color(0xFF424242) else Color.White
+            containerColor = MaterialTheme.colorScheme.surface
         )
     }
 }
@@ -1358,7 +1359,7 @@ fun ShowInfoDialog(message: String, theme: String, onDismiss: () -> Unit) {
                 onClick = onDismiss,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                    contentColor = if (theme == "dark") Color.LightGray else Color.White
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 Text(stringResource(id = R.string.ok))

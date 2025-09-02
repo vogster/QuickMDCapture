@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Light theme dialog text styles -->
+    <!-- Dark theme styles -->
     <style name="DialogText" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
-    <!-- Heading / spinner text -->
     <style name="DialogText.Heading" parent="@style/DialogText">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
-    <!-- Large placeholder text -->
     <style name="DialogText.Placeholder" parent="@style/DialogText">
         <item name="android:textSize">28sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <!-- Button text -->
     <style name="DialogText.Button" parent="@style/DialogText">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <!-- Note dialog specific styles -->
+    <!-- Note dialog specific styles for dark theme -->
     <style name="NoteDialog">
         <item name="android:background">@drawable/note_dialog_background</item>
     </style>
@@ -55,5 +51,4 @@
         <item name="android:background">@drawable/note_dialog_cancel_button</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
-
 </resources>
