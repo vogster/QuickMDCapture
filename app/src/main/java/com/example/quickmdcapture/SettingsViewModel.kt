@@ -169,13 +169,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         MutableStateFlow(sharedPreferences.getString("SELECTED_THEME", "system") ?: "system")
     val selectedTheme: StateFlow<String> = _selectedTheme
 
-    private val _theme = MutableStateFlow(
-        when (_selectedTheme.value) {
-            "light" -> "light"
-            "dark" -> "dark"
-            else -> if (isSystemInDarkTheme(application)) "dark" else "light"
-        }
-    )
+    private val _theme = MutableStateFlow(calculateEffectiveTheme())
     val theme: StateFlow<String> = _theme
 
     init {
@@ -200,12 +194,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
         viewModelScope.launch {
             _selectedTheme.collect {
-                _theme.value = when (it) {
-                    "light" -> "light"
-                    "dark" -> "dark"
-                    else -> if (isSystemInDarkTheme(application)) "dark" else "light"
-                }
+                _theme.value = calculateEffectiveTheme()
             }
+        }
+    }
+
+    private fun calculateEffectiveTheme(): String {
+        return when (_selectedTheme.value) {
+            "light" -> "light"
+            "dark" -> "dark"
+            else -> if (isSystemInDarkTheme(getApplication())) "dark" else "light"
         }
     }
 
@@ -520,6 +518,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             _selectedTheme.value = theme
             sharedPreferences.edit().putString("SELECTED_THEME", theme).apply()
+        }
+    }
+
+    fun refreshTheme() {
+        viewModelScope.launch {
+            _theme.value = calculateEffectiveTheme()
         }
     }
 

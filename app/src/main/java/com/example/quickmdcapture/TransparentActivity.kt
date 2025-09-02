@@ -36,6 +36,9 @@ class TransparentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+        
+        // Refresh theme to ensure latest settings are applied
+        settingsViewModel.refreshTheme()
 
         if (settingsViewModel.isShowOverlockScreenDialog.value) {
             setShowWhenLocked(true)

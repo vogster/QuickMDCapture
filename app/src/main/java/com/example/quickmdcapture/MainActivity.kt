@@ -117,8 +117,16 @@ class MainActivity : AppCompatActivity() {
         settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
 
         setContent {
-            val currentTheme = settingsViewModel.getCurrentTheme()
-            AppCompatDelegate.setDefaultNightMode(currentTheme)
+            val currentTheme by settingsViewModel.theme.collectAsState()
+            
+            LaunchedEffect(currentTheme) {
+                val nightMode = when (currentTheme) {
+                    "light" -> AppCompatDelegate.MODE_NIGHT_NO
+                    "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+                    else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
+                AppCompatDelegate.setDefaultNightMode(nightMode)
+            }
 
             MaterialTheme {
                 MainScreen(
@@ -144,6 +152,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Reminder service will be started by NotificationService if needed
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh theme when app becomes active to ensure latest settings are applied
+        settingsViewModel.refreshTheme()
     }
 
     fun startNotificationService() {
