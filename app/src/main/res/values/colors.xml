@@ -19,7 +19,7 @@
     <color name="text_secondary">#FF49454F</color>
     <color name="text_hint">#FF9E9E9E</color>
     
-    <color name="accent_primary">#FF6650a4</color>
+    <color name="accent_primary">#758fff</color>
     <color name="accent_secondary">#FF625b71</color>
     
     <!-- Status colors -->
@@ -51,4 +51,5 @@
     <color name="obsidian_purple">#FF6650a4</color>
     <color name="muted_gray">#FF9E9E9E</color>
     <color name="cancel_gray">#FF757575</color>
+    <color name="blue_light">#758fff</color>
 </resources>
