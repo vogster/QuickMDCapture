@@ -94,8 +94,7 @@ class NoteDialog(
         window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
 
         val btnSave = findViewById<LinearLayout>(R.id.btnSave)
-        val btnCancel = findViewById<ImageButton>(R.id.btnCancelIcon)
-        val tvCancel = findViewById<TextView>(R.id.tvCancel)
+        val cancelContainer = findViewById<LinearLayout>(R.id.cancelContainer)
 
         // Setup template spinner
         val templates = settingsViewModel.templates.value
@@ -174,12 +173,7 @@ class NoteDialog(
             }
         }
 
-        btnCancel.setOnClickListener {
-            stopSpeechRecognition()
-            dismiss()
-        }
-
-        tvCancel.setOnClickListener {
+        cancelContainer.setOnClickListener {
             stopSpeechRecognition()
             dismiss()
         }

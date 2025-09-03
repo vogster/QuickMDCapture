@@ -109,40 +109,50 @@
                 app:layout_constraintTop_toBottomOf="@id/etNote" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Нижняя панель: левый круглый X + текст "Отмена" и правая кнопка Save -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginTop="18dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp">
 
-            <!-- круглая иконка -->
-            <ImageButton
-                android:id="@+id/btnCancelIcon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/note_dialog_cancel_button"
-                android:contentDescription="@string/cancel"
-                android:padding="6dp"
-                android:src="@drawable/ic_cancel_x"
-                app:tint="@color/text_secondary" />
-
-            <!-- Текст "Отмена" -->
-            <TextView
-                android:id="@+id/tvCancel"
+            <LinearLayout
+                android:id="@+id/cancelContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.9"
-                android:text="@string/cancel"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp" />
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                <!-- круглая иконка -->
+                <ImageButton
+                    android:id="@+id/btnCancelIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/note_dialog_cancel_button"
+                    android:contentDescription="@string/cancel"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_cancel_x"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/text_secondary" />
+
+                <!-- Текст "Отмена" -->
+                <TextView
+                    android:id="@+id/tvCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnCancelIcon"
+                    app:layout_constraintStart_toEndOf="@+id/btnCancelIcon"
+                    app:layout_constraintTop_toTopOf="@+id/btnCancelIcon" />
+
+            </LinearLayout>
 
             <!-- Save button (pill outline, иконка слева) -->
             <LinearLayout
@@ -153,12 +163,15 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="18dp"
-                android:paddingEnd="18dp">
+                android:paddingEnd="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_save"
                     app:tint="@color/accent_primary" />
@@ -174,7 +187,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
