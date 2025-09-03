@@ -8,10 +8,10 @@
     <!-- Карточка диалога -->
     <LinearLayout
         android:id="@+id/dialog_card"
+        style="@style/NoteDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="@style/NoteDialog"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingTop="18dp"
@@ -131,6 +131,7 @@
                     android:background="@drawable/note_dialog_cancel_button"
                     android:contentDescription="@string/cancel"
                     android:padding="6dp"
+                    android:clickable="false"
                     android:src="@drawable/ic_cancel_x"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
