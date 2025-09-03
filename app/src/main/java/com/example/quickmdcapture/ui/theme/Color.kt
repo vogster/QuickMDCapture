@@ -15,7 +15,7 @@ val Pink40 = Color(0xFF7D5260)
 
 // Enhanced color palette for better theme support
 // Primary colors
-val PrimaryLight = Color(0xFF6650a4)
+val PrimaryLight = Color(0xff758fff)
 val PrimaryDark = Color(0xFF2D2D2D)
 val OnPrimaryLight = Color(0xFFFFFFFF)
 val OnPrimaryDark = Color(0xFF7C4DFF)
@@ -40,7 +40,7 @@ val OnBackgroundDark = Color(0xFFE6E1E5)
 
 // Surface colors
 val SurfaceLight = Color(0xFFFFFBFE)
-val SurfaceDark = Color(0xFF1E1E1E)
+val SurfaceDark = Color(0xFF424242)
 val OnSurfaceLight = Color(0xFF1C1B1F)
 val OnSurfaceDark = Color(0xFFE6E1E5)
 

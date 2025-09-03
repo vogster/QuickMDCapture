@@ -529,10 +529,6 @@ fun SettingsScreen(
             Button(
                 onClick = onSelectFolder,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
             ) {
                 Text(stringResource(id = R.string.select_folder))
             }
@@ -1357,10 +1353,6 @@ fun ShowInfoDialog(message: String, theme: String, onDismiss: () -> Unit) {
         confirmButton = {
             Button(
                 onClick = onDismiss,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (theme == "dark") Color(0xFF616161) else Color(0xFF9E7CB2),
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
             ) {
                 Text(stringResource(id = R.string.ok))
             }
