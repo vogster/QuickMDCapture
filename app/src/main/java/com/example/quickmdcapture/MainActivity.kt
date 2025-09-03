@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
+import androidx.compose.foundation.isSystemInDarkTheme
+import com.example.quickmdcapture.ui.theme.QuickMDCaptureTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -116,6 +118,15 @@ class MainActivity : AppCompatActivity() {
 
         settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
 
+        // Set initial theme before setContent to avoid flicker
+        val initialTheme = settingsViewModel.theme.value
+        val initialNightMode = when (initialTheme) {
+            "light" -> AppCompatDelegate.MODE_NIGHT_NO
+            "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        AppCompatDelegate.setDefaultNightMode(initialNightMode)
+
         setContent {
             val currentTheme by settingsViewModel.theme.collectAsState()
             
@@ -125,10 +136,20 @@ class MainActivity : AppCompatActivity() {
                     "dark" -> AppCompatDelegate.MODE_NIGHT_YES
                     else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 }
-                AppCompatDelegate.setDefaultNightMode(nightMode)
+                // Only update if it's actually changed to avoid unnecessary updates
+                if (AppCompatDelegate.getDefaultNightMode() != nightMode) {
+                    AppCompatDelegate.setDefaultNightMode(nightMode)
+                }
             }
 
-            MaterialTheme {
+            QuickMDCaptureTheme(
+                darkTheme = when (currentTheme) {
+                    "light" -> false
+                    "dark" -> true
+                    else -> null // Use system default
+                } ?: isSystemInDarkTheme(),
+                dynamicColor = false // Disable dynamic colors to use custom themes
+            ) {
                 MainScreen(
                     onSelectFolder = { folderPicker.launch(null) },
                     settingsViewModel = settingsViewModel,
