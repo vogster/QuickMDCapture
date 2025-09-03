@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -9,13 +10,13 @@
         style="@style/NotificationButton.Left"
         android:src="@drawable/baseline_edit_note_24"
         android:scaleType="fitCenter"
-        android:padding="8dp"/>
+        android:padding="8dp" />
 
     <ImageView
         android:id="@+id/voice_input_button"
         style="@style/NotificationButton.Right"
         android:src="@drawable/baseline_mic_24"
         android:scaleType="fitCenter"
-        android:padding="8dp"/>
+        android:padding="8dp" />
 
 </LinearLayout>
